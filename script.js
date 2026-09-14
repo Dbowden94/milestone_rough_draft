@@ -1,0 +1,11 @@
+const quotes = [
+  { text: '“The secret of getting ahead is getting started.”', author: '— Mark Twain' },
+  { text: '“Great things are done by a series of small things brought together.”', author: '— Vincent van Gogh' },
+  { text: '“It always seems impossible until it is done.”', author: '— Nelson Mandela' },
+  { text: '“Creativity takes courage.”', author: '— Henri Matisse' },
+  { text: '“Success is the sum of small efforts, repeated day in and day out.”', author: '— Robert Collier' }
+];
+const quoteText=document.querySelector('#quote-text'),quoteAuthor=document.querySelector('#quote-author'),quoteContent=document.querySelector('.quote-content');
+if(quoteText&&quoteAuthor&&quoteContent){let currentQuote=0;window.setInterval(()=>{quoteContent.classList.add('changing');window.setTimeout(()=>{currentQuote=(currentQuote+1)%quotes.length;quoteText.textContent=quotes[currentQuote].text;quoteAuthor.textContent=quotes[currentQuote].author;quoteContent.classList.remove('changing')},350)},5000)}
+const form=document.querySelector('#community-form');
+if(form){const nameInput=document.querySelector('#first-name'),emailInput=document.querySelector('#email'),questionInput=document.querySelector('#question');const setError=(id,message)=>{document.querySelector(id).textContent=message};const validateName=()=>{const value=nameInput.value.trim(),message=value.length>0&&value.length<3?'Please enter at least 3 characters.':'';setError('#name-error',message);return !message&&value.length>=3};const validateEmail=()=>{const valid=emailInput.validity.valid;setError('#email-error',valid?'':'Please enter a valid email address.');return valid};const validateQuestion=()=>{const value=questionInput.value.trim(),message=value.length>0&&value.length<3?'Please enter at least 3 characters.':'';setError('#question-error',message);return !message};nameInput.addEventListener('input',validateName);emailInput.addEventListener('input',()=>{if(emailInput.value)validateEmail();else setError('#email-error','')});questionInput.addEventListener('input',validateQuestion);form.addEventListener('submit',event=>{event.preventDefault();const valid=validateName()&validateEmail()&validateQuestion(),message=document.querySelector('#form-message');if(valid){message.textContent='Thank you! Your information is ready to be submitted.';form.reset()}else{message.textContent=''}})}
